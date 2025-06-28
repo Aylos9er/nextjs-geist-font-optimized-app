@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html ng-app="crossStitchApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Cross Stitch Designer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.15/paper-full.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Inter', sans-serif;
+            background: #f8f8f8;
+        }
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .canvas-container {
+            position: relative;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        #stitchCanvas {
+            width: 100%;
+            height: 600px;
+            background: #fff;
+        }
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .tool-button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            background: #f0f0f0;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: background 0.2s;
+        }
+        .tool-button:hover {
+            background: #e0e0e0;
+        }
+        .color-picker {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .color-swatch {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+        .wooden-hoop {
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            border: 20px solid #8B4513;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body ng-controller="StitchController">
+    <div class="app-container">
+        <h1>Cross Stitch Designer</h1>
+        
+        <div class="toolbar">
+            <button class="tool-button" ng-click="setTool('cross')">Cross Stitch</button>
+            <button class="tool-button" ng-click="setTool('fill')">Fill</button>
+            <button class="tool-button" ng-click="adjustGrid()">Adjust Grid</button>
+            <input type="file" accept="image/*" onchange="angular.element(this).scope().uploadImage(event)">
+        </div>
+
+        <div class="color-picker">
+            <div class="color-swatch" 
+                 ng-repeat="color in threadColors" 
+                 ng-style="{'background-color': color}"
+                 ng-click="selectColor(color)">
+            </div>
+        </div>
+
+        <div class="canvas-container">
+            <div class="wooden-hoop"></div>
+            <canvas id="stitchCanvas" resize></canvas>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
